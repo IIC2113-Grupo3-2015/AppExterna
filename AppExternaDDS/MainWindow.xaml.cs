@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AppExternaDDS.Controllers;
+using AppExternaDDS.Views;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +22,20 @@ namespace AppExternaDDS
     /// </summary>
     public partial class MainWindow : Window
     {
+        private MainController _controller;
+
         public MainWindow()
         {
             InitializeComponent();
+
+            //initialize MainController
+            _controller = MainController.Instance;
+            this.DataContext = _controller;
+
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
         }
     }
 }

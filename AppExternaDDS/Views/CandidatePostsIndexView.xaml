@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="AppExternaDDS.Views.CandidateShowView"
+﻿<UserControl x:Class="AppExternaDDS.Views.CandidatePostsIndexView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -10,7 +10,7 @@
     </UserControl.Resources>
     <StackPanel>
         <TextBlock Text="{Binding Feedback}" Foreground="Red" TextWrapping="Wrap"/>
-        <Grid Visibility="{Binding Path=CandidateFound, Converter={StaticResource BoolToVis}}">
+        <Grid Visibility="{Binding Path=PostsFound, Converter={StaticResource BoolToVis}}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="*"/>
@@ -19,8 +19,19 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Candidate.Name, StringFormat=Name: {0}}"/>            
-            <Button Grid.Row="1" Grid.Column="0" Click="SeePosts_Click">See Posts</Button>
+            <ScrollViewer>
+                <ListView ItemsSource="{Binding Posts}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Margin="2" Text="{Binding Title, StringFormat=Title: {0}}"/>
+                                <TextBlock Margin="2" Text="{Binding Likes, StringFormat=Likes: {0}}"/>
+                                <TextBlock Margin="2" Text="{Binding Content, StringFormat=Content: {0}}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </ScrollViewer>
         </Grid>
     </StackPanel>
 </UserControl>

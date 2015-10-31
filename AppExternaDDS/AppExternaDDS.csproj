@@ -71,14 +71,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controllers\CandidatePostsController.cs" />
     <Compile Include="Controllers\CandidatesController.cs" />
     <Compile Include="Controllers\ControllerBase.cs" />
     <Compile Include="Controllers\IRestful.cs" />
     <Compile Include="Helpers\Router.cs" />
     <Compile Include="Models\Candidate.cs" />
     <Compile Include="Models\CandidateMetadata.cs" />
+    <Compile Include="Models\Post.cs" />
+    <Compile Include="Models\PostsCollection.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Views\CandidatePostsIndexView.xaml.cs">
+      <DependentUpon>CandidatePostsIndexView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CandidateShowView.xaml.cs">
       <DependentUpon>CandidateShowView.xaml</DependentUpon>
     </Compile>
@@ -89,6 +95,10 @@
       <DependentUpon>UserShowView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModelBase.cs" />
+    <Page Include="Views\CandidatePostsIndexView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\CandidateShowView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

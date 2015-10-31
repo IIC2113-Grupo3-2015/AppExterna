@@ -35,7 +35,6 @@ namespace AppExternaDDS.Views
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             _controller.EnteringView(ViewId.UserShow);
-            _controller.GetOne();
         }
 
         private void UserControl_Unloaded(object sender, RoutedEventArgs e)

@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using AppExternaDDS.Models;
+using AppExternaDDS.Helpers;
 
 namespace AppExternaDDS.Controllers
 {
@@ -33,12 +34,19 @@ namespace AppExternaDDS.Controllers
             _userFound = false;
         }
 
-        public override void EnteringView(Helpers.ViewId id)
+        public override void EnteringView(ViewId viewId)
         {
             Feedback = "";
+            switch (viewId)
+            {
+                case ViewId.UserShow:
+                    GetOne(); break;
+                default:
+                    Feedback += "ViewId = " + viewId.ToString() + " not implemented yet!!\n"; break;
+            }
         }
 
-        public override void LeavingView(Helpers.ViewId id)
+        public override void LeavingView(ViewId viewId)
         {
         }
 

@@ -22,9 +22,11 @@ namespace AppExternaDDS.Controllers
         //controllers
         private UsersController _usersController;
         private CandidatesController _candidatesController;
+        private CandidatePostsController _candidatesPostsController;
         //views
         private UserShowView _userShowView;
         private CandidateShowView _candidateShowView;
+        private CandidatePostsIndexView _candidatePostsIndexView;
         //current view
         private UserControl _currentView;
 
@@ -58,6 +60,11 @@ namespace AppExternaDDS.Controllers
             _candidatesController = new CandidatesController(_client);
             _candidateShowView = new CandidateShowView(_candidatesController);
             Router.Instance.AddView(ViewId.CandidateShow, _candidateShowView);
+
+            //candidate posts
+            _candidatesPostsController = new CandidatePostsController(_client);
+            _candidatePostsIndexView = new CandidatePostsIndexView(_candidatesPostsController);
+            Router.Instance.AddView(ViewId.CandidatePostsIndex, _candidatePostsIndexView);
 
             //set default view
             _currentView = _userShowView;

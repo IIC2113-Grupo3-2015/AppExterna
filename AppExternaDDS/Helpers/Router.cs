@@ -11,7 +11,7 @@ namespace AppExternaDDS.Helpers
 {
     public enum ViewId
     {
-        UserShow, CandidateShow
+        UserShow, CandidateShow, CandidatePostsIndex
     }
 
     public class Router

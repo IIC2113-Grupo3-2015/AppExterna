@@ -2,6 +2,8 @@
 using AppExternaDDS.Helpers;
 using System;
 using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,34 +20,29 @@ using System.Windows.Shapes;
 namespace AppExternaDDS.Views
 {
     /// <summary>
-    /// Interaction logic for CandidateShowView.xaml
+    /// Interaction logic for CandidatePostsIndexView.xaml
     /// </summary>
-    public partial class CandidateShowView : UserControl
+    public partial class CandidatePostsIndexView : UserControl
     {
-        CandidatesController _controller;
-        public CandidateShowView(CandidatesController controller)
+        CandidatePostsController _controller;
+        ViewId _viewId;
+        public CandidatePostsIndexView(CandidatePostsController controller)
         {
             InitializeComponent();
 
+            _viewId = ViewId.CandidatePostsIndex;
             _controller = controller;
             this.DataContext = controller;
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            _controller.EnteringView(ViewId.CandidateShow);
-            _controller.GetOne();
+            _controller.EnteringView(_viewId);
         }
 
         private void UserControl_Unloaded(object sender, RoutedEventArgs e)
         {
-            _controller.LeavingView(ViewId.CandidateShow);
-        }
-
-        private void SeePosts_Click(object sender, RoutedEventArgs e)
-        {            
-            var parameters = new Dictionary<string, string> { { "candidate_id", _controller.Candidate.Id.ToString() } };
-            Router.Instance.NavigateTo(ViewId.CandidatePostsIndex, parameters);
+            _controller.LeavingView(_viewId);
         }
     }
 }

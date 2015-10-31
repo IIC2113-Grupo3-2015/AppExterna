@@ -2,6 +2,7 @@
 using AppExternaDDS.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -9,66 +10,69 @@ using System.Threading.Tasks;
 
 namespace AppExternaDDS.Controllers
 {
-    public class CandidatesController : ControllerBase, IRestful
+    public class CandidatePostsController :  ControllerBase, IRestful
     {
-        public static readonly string candidates_path = "api/candidates";
+        public static readonly string candidate_posts_path = "api/candidates/{candidate_id}/posts";
 
-        private Candidate _candidate;
-        private bool _candidateFound;
+        private PostsCollection _posts;        
+        private bool _postsFound;
 
-        public bool CandidateFound
+        public PostsCollection Posts
         {
-            get { return _candidateFound; }
-            set { if (_candidateFound != value) { _candidateFound = value; RaisePropertyChanged("CandidateFound"); } }
-        }
-        public Candidate Candidate
-        {
-            get { return _candidate; }
-            set { if (_candidate != value) { _candidate = value; RaisePropertyChanged("Candidate"); } }
+            get { return _posts; }
         }
 
-        public CandidatesController(HttpClient client)
+        public bool PostsFound
+        {
+            get { return _postsFound; }
+            set { if (_postsFound != value) { _postsFound = value; RaisePropertyChanged("PostsFound"); } }
+        }
+
+        public CandidatePostsController(HttpClient client)
         {
             _client = client;
-            _candidate = Candidate.EmptyInstance;
-            _candidateFound = false;
+            _postsFound = false;
+            _posts = new PostsCollection();
         }
-
-
 
         public override void EnteringView(ViewId viewId)
         {
             Feedback = "";
             switch (viewId)
             {
-                case ViewId.CandidatePostsIndex:
-                    GetAll(); break;
                 case ViewId.CandidateShow:
                     GetOne(); break;
+                case ViewId.CandidatePostsIndex:
+                    GetAll(); break;
             }
         }
 
-        public override void LeavingView(ViewId viewId)
+        public override void LeavingView(ViewId id)
         {
         }
 
         public async Task GetOne()
         {
-            if (!MainController.Instance.global_parameters.ContainsKey("id"))
+            throw new NotImplementedException();
+        }
+
+        public async Task GetAll()
+        {
+            if (!MainController.Instance.global_parameters.ContainsKey("candidate_id"))
             {
-                Feedback += "Parameter 'id' not found\n";
+                Feedback += "Parameter 'candidate_id' not found\n";
                 return;
             }
             try
             {
-                string id = MainController.Instance.global_parameters["id"];
-                string url = candidates_path + "/" + id;
+                string candidate_id = MainController.Instance.global_parameters["candidate_id"];
+                string url = candidate_posts_path.Replace("{candidate_id}", candidate_id);
                 var response = await _client.GetAsync(url);
                 response.EnsureSuccessStatusCode();
 
-                var candidate = await response.Content.ReadAsAsync<Candidate>();
-                Candidate = candidate;
-                CandidateFound = true;
+                var posts = await response.Content.ReadAsAsync<List<Post>>();
+                _posts.CopyFrom(posts);
+                PostsFound = true;
             }
             catch (Newtonsoft.Json.JsonException jEx)
             {
@@ -78,15 +82,6 @@ namespace AppExternaDDS.Controllers
             {
                 Feedback += ex.Message + "\n";
             }
-            finally
-            {
-                Feedback += "transaction completed!!";
-            }
-        }
-
-        public async Task GetAll()
-        {
-            throw new NotImplementedException();
         }
 
         public async Task GetPage()
